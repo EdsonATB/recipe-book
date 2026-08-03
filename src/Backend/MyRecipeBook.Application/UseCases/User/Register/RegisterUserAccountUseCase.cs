@@ -1,4 +1,5 @@
-﻿using MyRecipeBook.Communication.Requests;
+﻿using Mapster;
+using MyRecipeBook.Communication.Requests;
 using MyRecipeBook.Exception.ExceptionsBase;
 
 namespace MyRecipeBook.Application.UseCases.User.Register;
@@ -9,7 +10,7 @@ public class RegisterUserAccountUseCase
     {
         ValidateAndThrowOnFailures(request);
 
-
+        var user = request.Adapt<Domain.Entities.User>(); // Mapeando os dados do request para a Entidade User. (Usando a lib "Mapster"). Funciona pois os nomes dos atributos do objeto da request e os nomes da entidade sao os mesmos.
     }
 
 
