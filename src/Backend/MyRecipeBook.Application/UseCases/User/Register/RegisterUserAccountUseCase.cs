@@ -7,6 +7,15 @@ public class RegisterUserAccountUseCase
 {
     public void Execute(RequestRegisterUserAccountJson request)
     {
+        Validate(request);
+
+
+    }
+
+
+
+    private void Validate(RequestRegisterUserAccountJson request)
+    {
         var validator = new RegisterUserAccountValidator();
 
         var result = validator.Validate(request);
