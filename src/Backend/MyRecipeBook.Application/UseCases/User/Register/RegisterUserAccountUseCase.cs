@@ -7,14 +7,14 @@ public class RegisterUserAccountUseCase
 {
     public void Execute(RequestRegisterUserAccountJson request)
     {
-        Validate(request);
+        ValidateAndThrowOnFailures(request);
 
 
     }
 
 
 
-    private void Validate(RequestRegisterUserAccountJson request)
+    private void ValidateAndThrowOnFailures(RequestRegisterUserAccountJson request)
     {
         var validator = new RegisterUserAccountValidator();
 
