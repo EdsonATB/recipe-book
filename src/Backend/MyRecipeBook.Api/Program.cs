@@ -5,13 +5,14 @@ using MyRecipeBook.Api.Filters;
 using System.Globalization;
 using MyRecipeBook.Infrastructure;
 using MyRecipeBook.Application;
+using MyRecipeBook.Api.Converters;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new StringConverter()));
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
