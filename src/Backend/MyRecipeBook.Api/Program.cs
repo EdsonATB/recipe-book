@@ -3,6 +3,9 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using MyRecipeBook.Api.Filters;
 using System.Globalization;
+using MyRecipeBook.Infrastructure;
+using MyRecipeBook.Application;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +15,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
-MyRecipeBook.Infrastructure.DependencyInjectionExtension.AddInfrastructure(builder.Services); // Como se estivesse fazendo builder.Services.AddScoped<>
-MyRecipeBook.Application.DependencyInjectionExtension.AddApplication(builder.Services); 
+builder.Services.AddInfrastructure();
+builder.Services.AddApplication();
 
 builder.Services.Configure<RequestLocalizationOptions>(options => 
 {
