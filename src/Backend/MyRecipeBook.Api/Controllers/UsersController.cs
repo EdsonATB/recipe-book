@@ -9,9 +9,9 @@ namespace MyRecipeBook.Api.Controllers;
 public class UsersController : ControllerBase
 {
     [HttpPost] //define que isso é um endpoint
-    public IActionResult Register([FromBody]RequestRegisterUserAccountJson request, [FromServices] IRegisterUserAccountUseCase useCase) 
+    public async Task<IActionResult> Register([FromBody]RequestRegisterUserAccountJson request, [FromServices] IRegisterUserAccountUseCase useCase) 
     {
-        useCase.Execute(request);
+        await useCase.Execute(request);
         return Created(); //devolve resposta 201 (created) pra quem solicitou esse endpoint
     }
 }

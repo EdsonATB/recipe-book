@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using MyRecipeBook.Communication.Requests;
+using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Domain.Security.PasswordHashing;
 using MyRecipeBook.Exception.ExceptionsBase;
 
@@ -8,18 +9,22 @@ namespace MyRecipeBook.Application.UseCases.User.Register;
 public class RegisterUserAccountUseCase : IRegisterUserAccountUseCase
 {
     private readonly IPasswordHasher _passwordHasher;
-    public RegisterUserAccountUseCase(IPasswordHasher passwordHasher)
+    private readonly IUserWriteOnlyRepository _userWriteOnlyRepository;
+    public RegisterUserAccountUseCase(IPasswordHasher passwordHasher, IUserWriteOnlyRepository userWriteOnlyRepository)
     {
         _passwordHasher = passwordHasher;
+        _userWriteOnlyRepository = userWriteOnlyRepository;
     }
 
-    public void Execute(RequestRegisterUserAccountJson request)
+    public async Task Execute(RequestRegisterUserAccountJson request)
     {
-        ValidateAndThrowOnFailures(request);
+        ValidateAndThrowOnFailures(request); //Validando os inputs do user
 
         var user = request.Adapt<Domain.Entities.User>(); // Mapeando os dados do request para a Entidade User. (Usando a lib "Mapster"). Funciona pois os nomes dos atributos do objeto da request e os nomes da entidade sao os mesmos.
 
-        user.Password = _passwordHasher.HashPassword(request.Password);    
+        user.Password = _passwordHasher.HashPassword(request.Password); // Hashando a senha
+        
+        await _userWriteOnlyRepository.Add(user);
     }
 
 
