@@ -17,6 +17,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IPasswordHasher, Argon2PasswordHasher>(); //registra o hasher de senha no serviço de injeçao de dependencia
                                                                      // "Quando alguem solicitar um objeto que implementa IPasswordHasher vc devolve uma instancia da classe Argon2PasswordHasher"
         services.AddScoped<IUserWriteOnlyRepository, UserRepository>(); // O lugar que estiver chamando o objeto que implementa a interface so vai ter acesso aos metodos que essa interface implementa, mesmo que o objeto seja o mesmo
+        services.AddScoped<IUserReadOnlyRepository, UserRepository>(); // O lugar que estiver chamando o objeto que implementa a interface so vai ter acesso aos metodos que essa interface implementa, mesmo que o objeto seja o mesmo
 
         services.AddDbContext<MyRecipeBookDbContext>(config =>
         {
