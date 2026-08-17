@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyRecipeBook.Application.UseCases.User.Register;
 using MyRecipeBook.Communication.Requests;
+using MyRecipeBook.Communication.Responses;
 
 namespace MyRecipeBook.Api.Controllers;
 
@@ -9,9 +10,11 @@ namespace MyRecipeBook.Api.Controllers;
 public class UsersController : ControllerBase
 {
     [HttpPost] //define que isso é um endpoint
+    [ProducesResponseType(typeof(ResponseRegisteredUserJson), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Register([FromBody]RequestRegisterUserAccountJson request, [FromServices] IRegisterUserAccountUseCase useCase) 
     {
-        await useCase.Execute(request);
-        return Created(); //devolve resposta 201 (created) pra quem solicitou esse endpoint
+        var result = await useCase.Execute(request);
+        return Created(string.Empty, result); 
     }
 }
