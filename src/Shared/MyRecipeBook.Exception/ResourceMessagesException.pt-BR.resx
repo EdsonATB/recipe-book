@@ -120,6 +120,9 @@
   <data name="UNKNOWN_ERROR" xml:space="preserve">
     <value>Erro desconhecido.</value>
   </data>
+  <data name="VALIDATION_EMAIL_ALREADY_EXISTS" xml:space="preserve">
+    <value>Eita! Esse email ja foi registrado.</value>
+  </data>
   <data name="VALIDATION_EMAIL_REQUIRED" xml:space="preserve">
     <value>Eita! O email esta inválido.</value>
   </data>
