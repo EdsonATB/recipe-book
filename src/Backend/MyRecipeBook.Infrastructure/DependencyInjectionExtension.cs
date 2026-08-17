@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MyRecipeBook.Domain.Repositories;
 using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Domain.Security.PasswordHashing;
 using MyRecipeBook.Infrastructure.DataAccess;
@@ -22,5 +23,7 @@ public static class DependencyInjectionExtension
             var connectionString = configuration.GetConnectionString("DbConnection");
             config.UseMySQL(connectionString!);
         });
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }
