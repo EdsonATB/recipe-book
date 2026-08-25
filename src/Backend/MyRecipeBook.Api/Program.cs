@@ -59,6 +59,7 @@ await ExecuteMigration();
 
 app.Run();
 
+//------------------------------------------------------
 async Task ExecuteMigration()
 {
     await using var scope = app.Services.CreateAsyncScope();
