@@ -1,5 +1,6 @@
 ﻿using CommonTestUtilities.Requests;
 using MyRecipeBook.Application.UseCases.User.Register;
+using Shouldly;
 
 namespace Validators.Tests.User.Register;
 
@@ -19,6 +20,6 @@ public class RegisterUserAccountValidatorTests
         var result = validator.Validate(request);
 
         //Assert
-        Assert.True(result.IsValid); //o teste deveria dar true
+        result.IsValid.ShouldBeTrue(); //o teste deveria dar true (Shouldly NuGet)
     }
 }
