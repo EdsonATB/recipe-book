@@ -16,6 +16,6 @@ public class IUserReadOnlyRepositoryBuilder
         _moq.Setup(repo => repo.ExistActiveUserWithEmail(email)).ReturnsAsync(true); //o valor default de boolean normalmente é false
     }
 
-    public IUserReadOnlyRepository Builder() => _moq.Object;
+    public IUserReadOnlyRepository Build() => _moq.Object;
     
 }

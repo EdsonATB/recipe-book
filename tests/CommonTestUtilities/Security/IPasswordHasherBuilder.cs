@@ -19,5 +19,5 @@ public class IPasswordHasherBuilder
         _moq.Setup(ipasswordhasher => ipasswordhasher.VerifyPassword(password, It.IsAny<string>())).Returns(true);
     }
 
-    public IPasswordHasher Builder() => _moq.Object;
+    public IPasswordHasher Build() => _moq.Object;
 }

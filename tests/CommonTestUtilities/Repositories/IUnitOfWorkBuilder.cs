@@ -5,7 +5,7 @@ namespace CommonTestUtilities.Repositories;
 
 public class IUnitOfWorkBuilder
 {
-    public static IUnitOfWork Builder()
+    public static IUnitOfWork Build()
     {
         var moq = new Mock<IUnitOfWork>(); //so isso pois nenhuma das funcoes dessa interface retornam valor
 

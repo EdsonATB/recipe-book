@@ -5,7 +5,7 @@ namespace CommonTestUtilities.Repositories;
 
 public class IUserWriteOnlyRepositoryBuilder
 {
-    public static IUserWriteOnlyRepository Builder()
+    public static IUserWriteOnlyRepository Build()
     {
         var moq = new Mock<IUserWriteOnlyRepository>();
 
