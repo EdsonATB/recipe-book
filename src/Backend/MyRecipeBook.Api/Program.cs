@@ -66,3 +66,5 @@ async Task ExecuteMigration()
 
     DatabaseMigration.ExecuteMigrations(scope.ServiceProvider);
 }
+
+public partial class Program { } //so pra dar uma referencia pros testes de integraçao ANTES do tempo de compilaçao (o partial junta essa aqui com a classe gerada em tempo de compilaçao) (na teoria isso aqui tambem é uma classe, mas so em tempo de compilaçao)
