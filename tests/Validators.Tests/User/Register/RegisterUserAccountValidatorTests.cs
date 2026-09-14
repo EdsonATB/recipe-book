@@ -24,14 +24,17 @@ public class RegisterUserAccountValidatorTests
         result.IsValid.ShouldBeTrue(); //o teste deveria dar true (Shouldly NuGet)
     }
 
-    [Fact]
-    public void Validate_ShouldHaveError_WhenNameIsEmpty()
+    [Theory]
+    [InlineData("")]
+    [InlineData(null)]
+    [InlineData("        ")]
+    public void Validate_ShouldHaveError_WhenNameIsEmpty(string name)
     {
         //AAA
 
         //Arrange
         var request = RequestRegisterUserAccountJsonBuilder.Build();
-        request.Name = string.Empty;
+        request.Name = name;
 
         var validator = new RegisterUserAccountValidator();
 
@@ -47,14 +50,17 @@ public class RegisterUserAccountValidatorTests
         });
     }
 
-    [Fact]
-    public void Validate_ShouldHaveError_WhenEmailIsEmpty()
+    [Theory]
+    [InlineData("")]
+    [InlineData(null)]
+    [InlineData("        ")]
+    public void Validate_ShouldHaveError_WhenEmailIsEmpty(string email)
     {
         //AAA
 
         //Arrange
         var request = RequestRegisterUserAccountJsonBuilder.Build();
-        request.Email = string.Empty;
+        request.Email = email;
 
         var validator = new RegisterUserAccountValidator();
 
