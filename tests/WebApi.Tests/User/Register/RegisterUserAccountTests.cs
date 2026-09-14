@@ -3,19 +3,21 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Exception;
 using Shouldly;
+using System.Globalization;
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
+using WebApi.Tests.InlineData;
 
 namespace WebApi.Tests.User.Register;
 
-public class RegisterUserAccountTests : IClassFixture<WebApplicationFactory<Program>>
+public class RegisterUserAccountTests : IClassFixture<MyRecipeBookApplicationFactory>
 {
     private readonly HttpClient _httpClient;
     private const string REQUEST_URI = "/users";
 
 
-    public RegisterUserAccountTests(WebApplicationFactory<Program> factory) //o factory representa o server rodando a API
+    public RegisterUserAccountTests(MyRecipeBookApplicationFactory factory) //o factory representa o server rodando a API
     {
         _httpClient = factory.CreateClient(); //instancia de HttpClient
     }
@@ -38,15 +40,19 @@ public class RegisterUserAccountTests : IClassFixture<WebApplicationFactory<Prog
         
         var responseData = await JsonDocument.ParseAsync(responseBody);
         responseData.RootElement.GetProperty("name").GetString().ShouldBe(request.Name); //no getProperty() deve ser com letra minuscula
-        responseData.RootElement.GetProperty("tokens").GetProperty("accesstoken").GetString().ShouldBeEmpty();
+        responseData.RootElement.GetProperty("tokens").GetProperty("accessToken").GetString().ShouldBeEmpty();
     }
 
-    [Fact]
-    public async Task Validate_ShouldBeAnErrorResponse_WhenNameIsEmpty()
+    [Theory]
+    [ClassData(typeof(CultureInlineData))]
+    public async Task Validate_ShouldBeAnErrorResponse_WhenNameIsEmpty(string culture)
     {
         //Arrange
         var request = RequestRegisterUserAccountJsonBuilder.Build();
         request.Name = string.Empty;
+
+        _httpClient.DefaultRequestHeaders.AcceptLanguage.Clear();
+        _httpClient.DefaultRequestHeaders.AcceptLanguage.ParseAdd(culture);
         
         //Act
         var response = await _httpClient.PostAsJsonAsync(REQUEST_URI, request);
@@ -63,7 +69,7 @@ public class RegisterUserAccountTests : IClassFixture<WebApplicationFactory<Prog
         errors.ShouldSatisfyAllConditions(errorsList =>
         {
             errorsList.Count().ShouldBe(1);
-            errorsList.ShouldContain(error => error.GetString().IsNotEmpty() && error.GetString()!.Equals(ResourceMessagesException.VALIDATION_NAME_REQUIRED)); //shouldContain espera bool
+            errorsList.ShouldContain(error => error.GetString().IsNotEmpty() && error.GetString()!.Equals(ResourceMessagesException.ResourceManager.GetString("VALIDATION_NAME_REQUIRED", new CultureInfo(culture)))); //shouldContain espera bool
 
         });
     }
