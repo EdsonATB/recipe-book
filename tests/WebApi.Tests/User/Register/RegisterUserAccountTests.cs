@@ -1,7 +1,9 @@
 ﻿using CommonTestUtilities.Requests;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Exception;
+using MyRecipeBook.Infrastructure.DataAccess;
 using Shouldly;
 using System.Globalization;
 using System.Net;
@@ -15,11 +17,16 @@ public class RegisterUserAccountTests : IClassFixture<MyRecipeBookApplicationFac
 {
     private readonly HttpClient _httpClient;
     private const string REQUEST_URI = "/users";
+    private readonly MyRecipeBookDbContext _dbContext;
 
 
     public RegisterUserAccountTests(MyRecipeBookApplicationFactory factory) //o factory representa o server rodando a API
     {
         _httpClient = factory.CreateClient(); //instancia de HttpClient
+
+        var scope = factory.Services.CreateScope();
+
+        _dbContext = scope.ServiceProvider.GetRequiredService<MyRecipeBookDbContext>();
     }
 
 
@@ -41,6 +48,10 @@ public class RegisterUserAccountTests : IClassFixture<MyRecipeBookApplicationFac
         var responseData = await JsonDocument.ParseAsync(responseBody);
         responseData.RootElement.GetProperty("name").GetString().ShouldBe(request.Name); //no getProperty() deve ser com letra minuscula
         responseData.RootElement.GetProperty("tokens").GetProperty("accessToken").GetString().ShouldBeEmpty();
+
+        var dbUserCheckResult = _dbContext.Users.Any(user => user.Active && user.Name.Equals(request.Name) && user.Email.Equals(request.Email));
+
+        dbUserCheckResult.ShouldBeTrue();
     }
 
     [Theory]
@@ -72,6 +83,10 @@ public class RegisterUserAccountTests : IClassFixture<MyRecipeBookApplicationFac
             errorsList.ShouldContain(error => error.GetString().IsNotEmpty() && error.GetString()!.Equals(ResourceMessagesException.ResourceManager.GetString("VALIDATION_NAME_REQUIRED", new CultureInfo(culture)))); //shouldContain espera bool
 
         });
+
+        var dbUserCheckResult = _dbContext.Users.Any(user => user.Active && user.Name.Equals(request.Name) && user.Email.Equals(request.Email));
+
+        dbUserCheckResult.ShouldBeFalse();
     }
 
 }
