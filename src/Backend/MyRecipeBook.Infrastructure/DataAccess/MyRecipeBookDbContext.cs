@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyRecipeBook.Domain.Entities;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("WebApi.Tests")] //por mais q seja esse o nome, essa tag da acesso ao projeto de infra todo
 namespace MyRecipeBook.Infrastructure.DataAccess;
 
 internal class MyRecipeBookDbContext : DbContext
