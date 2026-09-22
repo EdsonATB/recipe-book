@@ -21,5 +21,27 @@ jobs:
       - name: Build
         run: dotnet build
 
-      - name: Test
-        run: dotnet test
+      - name: Tests
+        run: dotnet test --settings tests/coverlet.runsettings --logger "trx;LogFileName=test-results.trx"
+
+      - name: Install ReportGenerator
+        run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+      - name: Generate Code Coverage Report
+        run: |
+          reportgenerator \
+            "-reports:**/coverage.cobertura.xml" \
+            "-targetdir:coverage-report" \
+            "-reporttypes:Html"
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: '**/test-results.trx'
+
+      - name: Upload Code Coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage
+          path: 'coverage-report'
