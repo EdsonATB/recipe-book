@@ -20,7 +20,7 @@ public class LoginWithEmailAndPasswordUseCaseTests
     {
         //AAA
         //Arrange
-        var user = UserBuilder.Build();
+        var (user, _) = UserBuilder.Build();
         var request = RequestLoginJsonBuilder.Build();
         request.Email = user.Email; //Forçando eles a serem iguais pois geram emails diferentes (talvez por ter escopos diferentes entre projetos??)
 
@@ -61,7 +61,7 @@ public class LoginWithEmailAndPasswordUseCaseTests
     {
         //AAA
         //Arrange
-        var user = UserBuilder.Build();
+        var (user, _) = UserBuilder.Build();
         var request = RequestLoginJsonBuilder.Build();
         request.Email = user.Email; //Forçando eles a serem iguais pois geram emails diferentes (talvez por ter escopos diferentes entre projetos??)
 
