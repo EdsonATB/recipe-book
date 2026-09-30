@@ -9,6 +9,7 @@ using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Exception;
 using MyRecipeBook.Exception.ExceptionsBase;
 using Shouldly;
+using System.Net;
 
 namespace UseCases.Tests.User.Login.WithEmailAndPassword;
 
@@ -68,6 +69,8 @@ public class LoginWithEmailAndPasswordUseCaseTests
 
         //Act-Assert
         var exception = await useCase.Execute(request).ShouldThrowAsync<InvalidLoginException>();
+
+        exception.getStatusCode().ShouldBe(HttpStatusCode.Unauthorized);
         exception.getErrorMessages().ShouldSatisfyAllConditions(errorMessages =>
         {
             errorMessages.Count.ShouldBe(1);
