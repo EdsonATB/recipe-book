@@ -1,34 +1,20 @@
 ﻿using CommonTestUtilities.Requests;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Exception;
-using MyRecipeBook.Infrastructure.DataAccess;
 using Shouldly;
 using System.Globalization;
 using System.Net;
-using System.Net.Http.Json;
 using System.Text.Json;
 using WebApi.Tests.InlineData;
 
 namespace WebApi.Tests.User.Register;
 
-public class RegisterUserAccountTests : IClassFixture<MyRecipeBookApplicationFactory>
+public class RegisterUserAccountTests : BaseIntegrationTests
 {
-    private readonly HttpClient _httpClient;
     private const string REQUEST_URI = "/users";
-    private readonly MyRecipeBookDbContext _dbContext;
 
-
-    public RegisterUserAccountTests(MyRecipeBookApplicationFactory factory) //o factory representa o server rodando a API
-    {
-        _httpClient = factory.CreateClient(); //instancia de HttpClient
-
-        var scope = factory.Services.CreateScope();
-
-        _dbContext = scope.ServiceProvider.GetRequiredService<MyRecipeBookDbContext>();
-    }
-
+    public RegisterUserAccountTests(MyRecipeBookApplicationFactory factory) : base(factory) //base repassa esse valor para o construtor da classe pai tb
+    { }
 
     [Fact]
     public async Task Success()
@@ -37,7 +23,7 @@ public class RegisterUserAccountTests : IClassFixture<MyRecipeBookApplicationFac
         var request = RequestRegisterUserAccountJsonBuilder.Build();
 
         //Act
-        var response = await _httpClient.PostAsJsonAsync(REQUEST_URI, request);
+        var response = await Post(REQUEST_URI, request);
 
         //Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Created);
@@ -49,7 +35,7 @@ public class RegisterUserAccountTests : IClassFixture<MyRecipeBookApplicationFac
         responseData.RootElement.GetProperty("name").GetString().ShouldBe(request.Name); //no getProperty() deve ser com letra minuscula
         responseData.RootElement.GetProperty("tokens").GetProperty("accessToken").GetString().ShouldBeEmpty();
 
-        var dbUserCheckResult = _dbContext.Users.Any(user => user.Active && user.Name.Equals(request.Name) && user.Email.Equals(request.Email));
+        var dbUserCheckResult = DbContext.Users.Any(user => user.Active && user.Name.Equals(request.Name) && user.Email.Equals(request.Email));
 
         dbUserCheckResult.ShouldBeTrue();
     }
@@ -62,11 +48,8 @@ public class RegisterUserAccountTests : IClassFixture<MyRecipeBookApplicationFac
         var request = RequestRegisterUserAccountJsonBuilder.Build();
         request.Name = string.Empty;
 
-        _httpClient.DefaultRequestHeaders.AcceptLanguage.Clear();
-        _httpClient.DefaultRequestHeaders.AcceptLanguage.ParseAdd(culture);
-        
         //Act
-        var response = await _httpClient.PostAsJsonAsync(REQUEST_URI, request);
+        var response = await Post(REQUEST_URI, request, culture);
 
         //Assert
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
@@ -84,7 +67,7 @@ public class RegisterUserAccountTests : IClassFixture<MyRecipeBookApplicationFac
 
         });
 
-        var dbUserCheckResult = _dbContext.Users.Any(user => user.Active && user.Name.Equals(request.Name) && user.Email.Equals(request.Email));
+        var dbUserCheckResult = DbContext.Users.Any(user => user.Active && user.Name.Equals(request.Name) && user.Email.Equals(request.Email));
 
         dbUserCheckResult.ShouldBeFalse();
     }
