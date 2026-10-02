@@ -5,9 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Domain.Repositories;
 using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Domain.Security.PasswordHashing;
+using MyRecipeBook.Domain.Security.Tokens;
 using MyRecipeBook.Infrastructure.DataAccess;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories;
 using MyRecipeBook.Infrastructure.Security.PasswordHashing;
+using MyRecipeBook.Infrastructure.Security.Tokens.Access;
 using System.Reflection;
 
 namespace MyRecipeBook.Infrastructure;
@@ -30,8 +32,6 @@ public static class DependencyInjectionExtension
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddFluentMigratorCore().ConfigureRunner(config => 
         {
-            
-
             config
             .AddMySql5()
             .WithGlobalConnectionString(_ =>
@@ -42,6 +42,14 @@ public static class DependencyInjectionExtension
             .ScanIn(Assembly.Load("MyRecipeBook.Infrastructure"))
             .For.All();
         
+        });
+
+        services.AddScoped<IAccessTokenGenerator>(provider =>
+        {
+            var expirationTimeMinutes = configuration.GetValue<uint>("Jwt:ExpirationTimeMinutes"); //.GetValue vem do pacote nuget Binder
+            var signingKey = configuration.GetValue<string>("Jwt:SigningKey")!;
+
+            return new JwtTokenHandler(expirationTimeMinutes, signingKey);
         });
     }
 }
