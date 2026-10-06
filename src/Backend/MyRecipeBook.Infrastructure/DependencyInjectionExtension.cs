@@ -16,40 +16,54 @@ namespace MyRecipeBook.Infrastructure;
 
 public static class DependencyInjectionExtension
 {
-    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration) //o this pega o objeto que esta chamando essa funçao
+    extension(IServiceCollection services)
     {
-        services.AddScoped<IPasswordHasher, Argon2PasswordHasher>(); //registra o hasher de senha no serviço de injeçao de dependencia
-                                                                     // "Quando alguem solicitar um objeto que implementa IPasswordHasher vc devolve uma instancia da classe Argon2PasswordHasher"
-        services.AddScoped<IUserWriteOnlyRepository, UserRepository>(); // O lugar que estiver chamando o objeto que implementa a interface so vai ter acesso aos metodos que essa interface implementa, mesmo que o objeto seja o mesmo
-        services.AddScoped<IUserReadOnlyRepository, UserRepository>(); // O lugar que estiver chamando o objeto que implementa a interface so vai ter acesso aos metodos que essa interface implementa, mesmo que o objeto seja o mesmo
-
-        services.AddDbContext<MyRecipeBookDbContext>(config =>
+        public void AddInfrastructure(IConfiguration configuration) //o this pega o objeto que esta chamando essa funçao
         {
-            var connectionString = configuration.GetConnectionString("DbConnection");
-            config.UseMySQL(connectionString!);
-        });
-
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddFluentMigratorCore().ConfigureRunner(config => 
-        {
-            config
-            .AddMySql5()
-            .WithGlobalConnectionString(_ =>
+            services.AddRepositories();
+            services.AddScoped<IPasswordHasher, Argon2PasswordHasher>(); //registra o hasher de senha no serviço de injeçao de dependencia
+                                                                         // "Quando alguem solicitar um objeto que implementa IPasswordHasher vc devolve uma instancia da classe Argon2PasswordHasher"
+            services.AddDbContext<MyRecipeBookDbContext>(config =>
             {
                 var connectionString = configuration.GetConnectionString("DbConnection");
-                return connectionString;
-            })
-            .ScanIn(Assembly.Load("MyRecipeBook.Infrastructure"))
-            .For.All();
-        
-        });
+                config.UseMySQL(connectionString!);
+            });
+ 
+            services.AddFluentMigratorCore().ConfigureRunner(config =>
+            {
+                config
+                .AddMySql5()
+                .WithGlobalConnectionString(_ =>
+                {
+                    var connectionString = configuration.GetConnectionString("DbConnection");
+                    return connectionString;
+                })
+                .ScanIn(Assembly.Load("MyRecipeBook.Infrastructure"))
+                .For.All();
 
-        services.AddScoped<IAccessTokenGenerator>(provider =>
+            });
+
+            services.AddTokenHandlers(configuration);
+        }
+
+        private void AddRepositories()
         {
-            var expirationTimeMinutes = configuration.GetValue<uint>("Jwt:ExpirationTimeMinutes"); //.GetValue vem do pacote nuget Binder
-            var signingKey = configuration.GetValue<string>("Jwt:SigningKey")!;
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUserWriteOnlyRepository, UserRepository>(); // O lugar que estiver chamando o objeto que implementa a interface so vai ter acesso aos metodos que essa interface implementa, mesmo que o objeto seja o mesmo
+            services.AddScoped<IUserReadOnlyRepository, UserRepository>(); // O lugar que estiver chamando o objeto que implementa a interface so vai ter acesso aos metodos que essa interface implementa, mesmo que o objeto seja o mesmo
 
-            return new JwtTokenHandler(expirationTimeMinutes, signingKey);
-        });
+        }
+
+        private void AddTokenHandlers(IConfiguration configuration)
+        {
+            services.AddScoped<IAccessTokenGenerator>(provider =>
+            {
+                var expirationTimeMinutes = configuration.GetValue<uint>("Jwt:ExpirationTimeMinutes"); //.GetValue vem do pacote nuget Binder
+                var signingKey = configuration.GetValue<string>("Jwt:SigningKey")!;
+
+                return new JwtTokenHandler(expirationTimeMinutes, signingKey);
+            });
+        }
     }
+    
 }

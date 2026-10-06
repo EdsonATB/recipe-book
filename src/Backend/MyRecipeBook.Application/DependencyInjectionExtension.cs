@@ -6,9 +6,17 @@ namespace MyRecipeBook.Application;
 
 public static class DependencyInjectionExtension
 {
-    public static void AddApplication(this IServiceCollection services) //o this pega o objeto que esta chamando essa funçao
+    extension(IServiceCollection services)
     {
-        services.AddScoped<IRegisterUserAccountUseCase, RegisterUserAccountUseCase>();
-        services.AddScoped<ILoginWithEmailAndPasswordUseCase, LoginWithEmailAndPasswordUseCase>();
+        public void AddApplication() //o this pega o objeto que esta chamando essa funçao
+        {
+            services.AddUseCases();
+        }
+
+        private void AddUseCases()
+        {
+            services.AddScoped<IRegisterUserAccountUseCase, RegisterUserAccountUseCase>();
+            services.AddScoped<ILoginWithEmailAndPasswordUseCase, LoginWithEmailAndPasswordUseCase>();
+        }
     }
 }
