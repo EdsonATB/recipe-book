@@ -33,7 +33,7 @@ public class LoginWithEmailAndPasswordUseCaseTests
         result.ShouldNotBeNull();
         result.Name.ShouldNotBeNull();
         result.Name.ShouldBe(user.Name);
-        result.Tokens.AccessToken.ShouldBeNullOrEmpty();
+        result.Tokens.AccessToken.ShouldNotBeNullOrEmpty();
         result.Tokens.RefreshToken.ShouldBeNullOrEmpty();
     }
     
@@ -93,6 +93,6 @@ public class LoginWithEmailAndPasswordUseCaseTests
             passwordHasherBuilder.VerifyPassword(password);
         }
 
-        return new LoginWithEmailAndPasswordUseCase(passwordHasherBuilder.Build(), userReadOnlyRepositoryBuilder.Build());
+        return new LoginWithEmailAndPasswordUseCase(passwordHasherBuilder.Build(), userReadOnlyRepositoryBuilder.Build(), IAccessTokenGeneratorBuilder.Build());
     }
 }

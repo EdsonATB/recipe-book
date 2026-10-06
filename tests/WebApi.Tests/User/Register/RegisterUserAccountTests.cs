@@ -33,7 +33,7 @@ public class RegisterUserAccountTests : BaseIntegrationTests
         
         var responseData = await JsonDocument.ParseAsync(responseBody);
         responseData.RootElement.GetProperty("name").GetString().ShouldBe(request.Name); //no getProperty() deve ser com letra minuscula
-        responseData.RootElement.GetProperty("tokens").GetProperty("accessToken").GetString().ShouldBeEmpty();
+        responseData.RootElement.GetProperty("tokens").GetProperty("accessToken").GetString().ShouldNotBeNullOrEmpty();
 
         var dbUserCheckResult = DbContext.Users.Any(user => user.Active && user.Name.Equals(request.Name) && user.Email.Equals(request.Email));
 
