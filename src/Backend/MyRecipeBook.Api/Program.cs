@@ -17,6 +17,9 @@ using MyRecipeBook.Domain.Extensions;
 using Org.BouncyCastle.Tls;
 using MyRecipeBook.Communication.Responses;
 using MyRecipeBook.Exception;
+using Microsoft.OpenApi;
+using MyRecipeBook.Domain.Security.Tokens;
+using MyRecipeBook.Api.Token;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,10 +28,35 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new StringConverter()));
 builder.Services.AddOpenApi();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options => 
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Description = "Enter only your access token, Swagger will add 'Bearer' automatically",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+    });
+
+    options.AddSecurityRequirement(OpenApiDocument =>
+    {
+        return new OpenApiSecurityRequirement
+        {
+            {   //usa as definiçoes acima
+                new OpenApiSecuritySchemeReference("Bearer", OpenApiDocument),[] //sintaxe estranha por conta da herança do securityRequirement
+
+            }
+        };
+    });
+});
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+
+builder.Services.AddScoped<IAccessTokenProvider, HttpContextTokenProvider>();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.Configure<RequestLocalizationOptions>(options => 
 {
