@@ -120,6 +120,9 @@
   <data name="UNKNOWN_ERROR" xml:space="preserve">
     <value>Unknown error.</value>
   </data>
+  <data name="VALIDATION_ACCESS_TOKEN_REQUIRED" xml:space="preserve">
+    <value>Oops! Access token is required.</value>
+  </data>
   <data name="VALIDATION_EMAIL_ALREADY_EXISTS" xml:space="preserve">
     <value>Oops! Email already registered.</value>
   </data>
@@ -137,5 +140,8 @@
   </data>
   <data name="VALIDATION_PASSWORD_LENGTH" xml:space="preserve">
     <value>Oops! Password must be between 7 and 30 characters</value>
+  </data>
+  <data name="VALIDATION_RESOURCE_ACCESS_DENIED" xml:space="preserve">
+    <value>Oops! You dont have access to this.</value>
   </data>
 </root>

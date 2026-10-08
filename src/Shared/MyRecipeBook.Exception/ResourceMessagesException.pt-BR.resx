@@ -120,6 +120,9 @@
   <data name="UNKNOWN_ERROR" xml:space="preserve">
     <value>Erro desconhecido.</value>
   </data>
+  <data name="VALIDATION_ACCESS_TOKEN_REQUIRED" xml:space="preserve">
+    <value>Eita! O token de acesso é obrigatório.</value>
+  </data>
   <data name="VALIDATION_EMAIL_ALREADY_EXISTS" xml:space="preserve">
     <value>Eita! Esse email ja foi registrado.</value>
   </data>
@@ -137,5 +140,8 @@
   </data>
   <data name="VALIDATION_PASSWORD_LENGTH" xml:space="preserve">
     <value>Eita! Senha deve ser entre 7 e 30 caracteres.</value>
+  </data>
+  <data name="VALIDATION_RESOURCE_ACCESS_DENIED" xml:space="preserve">
+    <value>Eita! Voce não tem acesso a isso.</value>
   </data>
 </root>

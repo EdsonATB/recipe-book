@@ -70,6 +70,15 @@ namespace MyRecipeBook.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Oops! Access token is required..
+        /// </summary>
+        public static string VALIDATION_ACCESS_TOKEN_REQUIRED {
+            get {
+                return ResourceManager.GetString("VALIDATION_ACCESS_TOKEN_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Oops! Email already registered..
         /// </summary>
         public static string VALIDATION_EMAIL_ALREADY_EXISTS {
@@ -120,6 +129,15 @@ namespace MyRecipeBook.Exception {
         public static string VALIDATION_PASSWORD_LENGTH {
             get {
                 return ResourceManager.GetString("VALIDATION_PASSWORD_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! You dont have access to this..
+        /// </summary>
+        public static string VALIDATION_RESOURCE_ACCESS_DENIED {
+            get {
+                return ResourceManager.GetString("VALIDATION_RESOURCE_ACCESS_DENIED", resourceCulture);
             }
         }
     }

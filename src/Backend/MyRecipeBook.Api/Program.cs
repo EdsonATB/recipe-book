@@ -10,6 +10,13 @@ using MyRecipeBook.Infrastructure.Migrations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using MyRecipeBook.Domain.Repositories.User;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using MyRecipeBook.Domain.Extensions;
+using Org.BouncyCastle.Tls;
+using MyRecipeBook.Communication.Responses;
+using MyRecipeBook.Exception;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,6 +58,44 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateLifetime = true,
             ClockSkew = TimeSpan.Zero
+        };
+
+        jwtoptions.Events = new JwtBearerEvents()
+        {
+            OnTokenValidated = async context => {
+                var subject = context.Principal?.FindFirstValue(JwtRegisteredClaimNames.Sub)
+                ?? context.Principal?.FindFirstValue(ClaimTypes.NameIdentifier); // ?? = se for nulo faça o outro
+         
+                if (Guid.TryParse(subject, out var userId) == false)
+                {
+                    context.Fail("Invalid Token Subject");
+                    return;
+                }
+
+                var userRepository = context.HttpContext.RequestServices.GetRequiredService<IUserReadOnlyRepository>();
+
+                var UserExists = await userRepository.ExistActiveUserWithId(userId);
+                if (UserExists == false)
+                {
+                    context.Fail("User not found or inactive");
+                }
+            },
+            OnChallenge = async context => //é executado quando um .Fail() for chamado
+            {
+                context.HandleResponse();
+
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                context.Response.ContentType = "application/json";
+
+                var response = context.AuthenticateFailure switch
+                {
+                    null => new ResponseErrorJson(ResourceMessagesException.VALIDATION_ACCESS_TOKEN_REQUIRED),
+                    SecurityTokenExpiredException => new ResponseErrorJson("Token Expired", true),
+                    _ => new ResponseErrorJson(ResourceMessagesException.VALIDATION_RESOURCE_ACCESS_DENIED)
+                };
+
+                await context.Response.WriteAsJsonAsync(response);
+            }
         };
     });
 
