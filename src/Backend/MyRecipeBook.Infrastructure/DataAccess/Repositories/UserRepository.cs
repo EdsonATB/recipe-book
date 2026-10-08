@@ -16,6 +16,9 @@ internal sealed class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRe
 
     public async Task<bool> ExistActiveUserWithEmail(string email) => await _dbContext.Users.AnyAsync(user => user.Active && user.Email.Equals(email));
 
+    public async Task<bool> ExistActiveUserWithId(Guid userId) => await _dbContext.Users.AnyAsync(user => user.Active && user.Id.Equals(userId));
+    
+
     public async Task<User?> GetByEmail(string email)
     {
         return await _dbContext.Users
