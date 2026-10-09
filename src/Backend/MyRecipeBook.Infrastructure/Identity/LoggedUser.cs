@@ -22,7 +22,9 @@ internal sealed class LoggedUser : ILoggedUser
     {
         var userId = GetUserId();
 
-        return await _dbContext.Users.FirstAsync(user => user.Id == userId && user.Active);
+        return await _dbContext.Users
+            .AsNoTracking()
+            .FirstAsync(user => user.Id == userId && user.Active);
     }
 
     public Guid GetUserId()
@@ -33,8 +35,8 @@ internal sealed class LoggedUser : ILoggedUser
 
         var jsonWebToken = handler.ReadJsonWebToken(accessToken);
 
-        var subject = jsonWebToken.Claims.First(claim => claim.Type.Equals(JwtRegisteredClaimNames.Sub));
+        var subject = jsonWebToken.Subject;
 
-        return Guid.Parse(subject.Value);
+        return Guid.Parse(subject);
     }
 }

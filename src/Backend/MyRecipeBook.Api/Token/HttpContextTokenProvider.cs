@@ -15,6 +15,6 @@ public class HttpContextTokenProvider : IAccessTokenProvider ///esta sendo imple
     {
         var accessToken = _contextAccessor.HttpContext!.Request.Headers.Authorization.ToString();
 
-        return accessToken;
+        return accessToken["Bearer ".Length..];
     }
 }
