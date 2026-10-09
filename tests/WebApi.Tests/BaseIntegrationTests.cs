@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Infrastructure.DataAccess;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace WebApi.Tests;
@@ -20,11 +22,26 @@ public abstract class BaseIntegrationTests : IClassFixture<MyRecipeBookApplicati
         DbContext = _scope.ServiceProvider.GetRequiredService<MyRecipeBookDbContext>();
     }
 
-    protected async Task<HttpResponseMessage> Post(string REQUEST_URI, object request, string culture = "en-US")
+    protected async Task<HttpResponseMessage> Post(string REQUEST_URI, object request, string accessToken = "", string culture = "en-US")
     {
         ChangeCulture(culture);
 
         return await _httpClient.PostAsJsonAsync(REQUEST_URI, request);
+    }
+    protected async Task<HttpResponseMessage> Get(string REQUEST_URI, string accessToken, string culture = "en-US")
+    {
+        ChangeCulture(culture);
+        AuthorizeRequest(accessToken);
+
+        return await _httpClient.GetAsync(REQUEST_URI);
+    }
+
+    private void AuthorizeRequest(string accessToken)
+    {
+        if (accessToken.IsNotEmpty())
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+        }
     }
 
     private void ChangeCulture(string culture)

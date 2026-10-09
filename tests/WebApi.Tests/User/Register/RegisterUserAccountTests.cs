@@ -49,7 +49,7 @@ public class RegisterUserAccountTests : BaseIntegrationTests
         request.Name = string.Empty;
 
         //Act
-        var response = await Post(REQUEST_URI, request, culture);
+        var response = await Post(REQUEST_URI, request, culture: culture);
 
         //Assert
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);

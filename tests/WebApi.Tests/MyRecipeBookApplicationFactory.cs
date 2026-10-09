@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Domain.Security.PasswordHashing;
+using MyRecipeBook.Domain.Security.Tokens;
 using MyRecipeBook.Infrastructure.DataAccess;
 using Testcontainers.MySql;
 using WebApi.Tests.Resources;
@@ -44,14 +45,16 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
 
         var dbContext = scope.ServiceProvider.GetRequiredService<MyRecipeBookDbContext>();
         var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
+        var tokenGenerator = scope.ServiceProvider.GetRequiredService<IAccessTokenGenerator>();
 
         var (user, password) = UserBuilder.Build();
         user.Password = passwordHasher.HashPassword(password);
+        var accessToken = tokenGenerator.Generate(user);
 
         await dbContext.Users.AddAsync(user);
         await dbContext.SaveChangesAsync();
 
-        User1 = new UserIdentityManager(user,password); 
+        User1 = new UserIdentityManager(user,password, accessToken); 
         ///settando essas informaçoes na variavel criada nessa classe para que possamos acessar esses valores usando 
         ///os metodos do identityManager so que la na classe de testes, 
         ///instanciamos essa variavel daqui pelo construtor de lá

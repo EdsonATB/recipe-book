@@ -52,7 +52,7 @@ public class LoginWithEmailAndPasswordTests : BaseIntegrationTests
         var request = RequestLoginJsonBuilder.Build();
 
         //Act
-        var response = await Post(REQUEST_URI, request, culture);
+        var response = await Post(REQUEST_URI, request,culture: culture);
 
         //Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
