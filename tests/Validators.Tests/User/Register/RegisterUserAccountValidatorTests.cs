@@ -95,7 +95,7 @@ public class RegisterUserAccountValidatorTests
         result.Errors.ShouldSatisfyAllConditions(errors =>
         {
             errors.Count.ShouldBe(1);
-            errors.ShouldContain(error => error.ErrorMessage.Equals(ResourceMessagesException.VALIDATION_PASSWORD_LENGTH));
+            errors.ShouldContain(error => error.ErrorMessage.Equals(ResourceMessagesException.VALIDATION_PASSWORD_REQUIRED));
         });
     }
 

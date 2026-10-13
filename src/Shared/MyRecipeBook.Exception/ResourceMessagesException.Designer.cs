@@ -79,6 +79,15 @@ namespace MyRecipeBook.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Oops! The current password is incorrect..
+        /// </summary>
+        public static string VALIDATION_CURRENT_PASSWORD {
+            get {
+                return ResourceManager.GetString("VALIDATION_CURRENT_PASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Oops! Email already registered..
         /// </summary>
         public static string VALIDATION_EMAIL_ALREADY_EXISTS {
@@ -129,6 +138,15 @@ namespace MyRecipeBook.Exception {
         public static string VALIDATION_PASSWORD_LENGTH {
             get {
                 return ResourceManager.GetString("VALIDATION_PASSWORD_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! Password is required..
+        /// </summary>
+        public static string VALIDATION_PASSWORD_REQUIRED {
+            get {
+                return ResourceManager.GetString("VALIDATION_PASSWORD_REQUIRED", resourceCulture);
             }
         }
         
