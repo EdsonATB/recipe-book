@@ -56,6 +56,7 @@ public static class DependencyInjectionExtension
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserWriteOnlyRepository, UserRepository>(); // O lugar que estiver chamando o objeto que implementa a interface so vai ter acesso aos metodos que essa interface implementa, mesmo que o objeto seja o mesmo
             services.AddScoped<IUserReadOnlyRepository, UserRepository>(); // O lugar que estiver chamando o objeto que implementa a interface so vai ter acesso aos metodos que essa interface implementa, mesmo que o objeto seja o mesmo
+            services.AddScoped<IUserUpdateOnlyRepository, UserRepository>(); 
 
         }
 
