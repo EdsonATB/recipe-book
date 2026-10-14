@@ -1,7 +1,6 @@
 ﻿using FluentValidation.Results;
 using MyRecipeBook.Communication.Requests;
 using MyRecipeBook.Domain.Identity;
-using MyRecipeBook.Domain.Repositories;
 using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Domain.Security.PasswordHashing;
 using MyRecipeBook.Exception;
@@ -9,7 +8,7 @@ using MyRecipeBook.Exception.ExceptionsBase;
 
 namespace MyRecipeBook.Application.UseCases.User.ChangePassword;
 
-internal class ChangePasswordUseCase : IChangePasswordUseCase
+public class ChangePasswordUseCase : IChangePasswordUseCase
 {
     private readonly ILoggedUser _loggedUser;
     private readonly IPasswordHasher _passwordHasher;
