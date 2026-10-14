@@ -7,8 +7,8 @@ public class IUserWriteOnlyRepositoryBuilder
 {
     public static IUserWriteOnlyRepository Build()
     {
-        var moq = new Mock<IUserWriteOnlyRepository>();
+        var mock = new Mock<IUserWriteOnlyRepository>();
 
-        return moq.Object;
+        return mock.Object;
     }
 }
