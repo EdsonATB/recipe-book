@@ -35,6 +35,13 @@ public abstract class BaseIntegrationTests : IClassFixture<MyRecipeBookApplicati
 
         return await _httpClient.GetAsync(REQUEST_URI);
     }
+    protected async Task<HttpResponseMessage> Put(string REQUEST_URI, object request, string accessToken, string culture = "en-US")
+    {
+        ChangeCulture(culture);
+        AuthorizeRequest(accessToken);
+
+        return await _httpClient.PutAsJsonAsync(REQUEST_URI, request);
+    }
 
     private void AuthorizeRequest(string accessToken)
     {
