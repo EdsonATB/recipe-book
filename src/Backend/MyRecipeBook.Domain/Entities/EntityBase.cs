@@ -2,6 +2,6 @@
 
 public abstract class EntityBase
 {
-    public Guid id { get; set; } = Guid.CreateVersion7();
+    public Guid Id { get; set; } = Guid.CreateVersion7();
     public bool Active { get; set; } = true;
 }
