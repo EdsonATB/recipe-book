@@ -15,6 +15,7 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
 {
     public UserIdentityManager User1 { get; private set; }
     private readonly MySqlContainer _mySqlContainer;
+    public string TOKEN_USER_NOT_FOUND_IN_DATABASE {  get; private set; } = string.Empty;
     public MyRecipeBookApplicationFactory() //configura o container que vai ser criado quando rodar os testes
     {
         _mySqlContainer = new MySqlBuilder("mysql:8.0")
@@ -54,10 +55,12 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
         await dbContext.Users.AddAsync(user);
         await dbContext.SaveChangesAsync();
 
-        User1 = new UserIdentityManager(user,password, accessToken); 
+        User1 = new UserIdentityManager(user,password, accessToken);
         ///settando essas informaçoes na variavel criada nessa classe para que possamos acessar esses valores usando 
         ///os metodos do identityManager so que la na classe de testes, 
         ///instanciamos essa variavel daqui pelo construtor de lá
+
+        TOKEN_USER_NOT_FOUND_IN_DATABASE = tokenGenerator.Generate(new MyRecipeBook.Domain.Entities.User());
     }
 
     Task IAsyncLifetime.DisposeAsync() // apaga o container apos terminar os testes
