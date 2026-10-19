@@ -14,6 +14,7 @@ namespace WebApi.Tests;
 public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
     public UserIdentityManager User1 { get; private set; }
+    public UserIdentityManager UserPasswordSuccessTest { get; private set; }
     private readonly MySqlContainer _mySqlContainer;
     public string TOKEN_USER_NOT_FOUND_IN_DATABASE {  get; private set; } = string.Empty;
     public MyRecipeBookApplicationFactory() //configura o container que vai ser criado quando rodar os testes
@@ -48,19 +49,28 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
         var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
         var tokenGenerator = scope.ServiceProvider.GetRequiredService<IAccessTokenGenerator>();
 
-        var (user, password) = UserBuilder.Build();
-        user.Password = passwordHasher.HashPassword(password);
-        var accessToken = tokenGenerator.Generate(user);
 
-        await dbContext.Users.AddAsync(user);
-        await dbContext.SaveChangesAsync();
-
-        User1 = new UserIdentityManager(user,password, accessToken);
+        User1 = await CreateUserAsync(dbContext, passwordHasher, tokenGenerator);
+        UserPasswordSuccessTest = await CreateUserAsync(dbContext, passwordHasher, tokenGenerator);
         ///settando essas informaçoes na variavel criada nessa classe para que possamos acessar esses valores usando 
         ///os metodos do identityManager so que la na classe de testes, 
         ///instanciamos essa variavel daqui pelo construtor de lá
 
         TOKEN_USER_NOT_FOUND_IN_DATABASE = tokenGenerator.Generate(new MyRecipeBook.Domain.Entities.User());
+    }
+
+    private static async Task<UserIdentityManager> CreateUserAsync(MyRecipeBookDbContext dbContext,
+                                                                    IPasswordHasher passwordHasher, IAccessTokenGenerator tokenGenerator)
+    {
+        var (user, password) = UserBuilder.Build();
+        user.Password = passwordHasher.HashPassword(password);
+
+        await dbContext.Users.AddAsync(user);
+        await dbContext.SaveChangesAsync();
+
+        var accessToken = tokenGenerator.Generate(user);
+
+        return new UserIdentityManager(user, password, accessToken);
     }
 
     Task IAsyncLifetime.DisposeAsync() // apaga o container apos terminar os testes

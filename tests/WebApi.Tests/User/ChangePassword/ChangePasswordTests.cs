@@ -17,18 +17,20 @@ public class ChangePasswordTests : BaseIntegrationTests
 {
     private const string REQUEST_URI = "users/password";
     private readonly UserIdentityManager _user1;
+    private readonly UserIdentityManager _userSuccessTest;
     public ChangePasswordTests(MyRecipeBookApplicationFactory factory) : base(factory)
     {
         _user1 = factory.User1;
+        _userSuccessTest = factory.UserPasswordSuccessTest;
     }
 
     [Fact]
     public async Task Success()
     {
         var request = RequestChangePasswordJsonBuilder.Build();
-        request.CurrentPassword = _user1.getPassword();
+        request.CurrentPassword = _userSuccessTest.getPassword();
 
-        var result = await Put(REQUEST_URI, request, accessToken: _user1.getToken());
+        var result = await Put(REQUEST_URI, request, accessToken: _userSuccessTest.getToken());
 
         result.StatusCode.ShouldBe(HttpStatusCode.NoContent);
     }
