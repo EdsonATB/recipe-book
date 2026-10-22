@@ -34,7 +34,7 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
                     ["ConnectionStrings:DbConnection"] = _mySqlContainer.GetConnectionString()
                 }; 
 
-                config.AddInMemoryCollection(parameters);
+                config.AddInMemoryCollection(parameters); //sobrescreve a connectionString padrao, por isso aponta pro banco de testes nao pro dev
             });
     }
 
@@ -43,7 +43,7 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
         await _mySqlContainer.StartAsync(); //await pra esperar executar o container antes de continuar o resto do cod
 
         //Criado seed no banco para testes de login(integraçao)
-        await using var scope = Services.CreateAsyncScope();
+        await using var scope = Services.CreateAsyncScope(); //Chamar o services dispara a execucao da api (program.cs) (tambem tem outros que podem fazer isso) (lazy)
 
         var dbContext = scope.ServiceProvider.GetRequiredService<MyRecipeBookDbContext>();
         var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
