@@ -177,4 +177,13 @@
   <data name="VALIDATION_TITLE_MAX_LENGTH" xml:space="preserve">
     <value>Oops! The recipe title must be at most 250 characters long.</value>
   </data>
+  <data name="VALIDATION_COOK_TIME_REQUIRED" xml:space="preserve">
+    <value>Oops! The cook time is required.</value>
+  </data>
+  <data name="VALIDATION_DISH_TYPE_REQUIRED" xml:space="preserve">
+    <value>Oops! The Dish Type is required.</value>
+  </data>
+  <data name="VALIDATION_INSTRUCTION_ORDER_DUPLICATED" xml:space="preserve">
+    <value>Oops! There can't be two instructions of the same order</value>
+  </data>
 </root>

@@ -79,6 +79,15 @@ namespace MyRecipeBook.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Oops! The cook time is required..
+        /// </summary>
+        public static string VALIDATION_COOK_TIME_REQUIRED {
+            get {
+                return ResourceManager.GetString("VALIDATION_COOK_TIME_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Oops! Cook Time is not valid..
         /// </summary>
         public static string VALIDATION_COOKTIME_INVALID {
@@ -93,6 +102,15 @@ namespace MyRecipeBook.Exception {
         public static string VALIDATION_CURRENT_PASSWORD {
             get {
                 return ResourceManager.GetString("VALIDATION_CURRENT_PASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! The Dish Type is required..
+        /// </summary>
+        public static string VALIDATION_DISH_TYPE_REQUIRED {
+            get {
+                return ResourceManager.GetString("VALIDATION_DISH_TYPE_REQUIRED", resourceCulture);
             }
         }
         
@@ -174,6 +192,15 @@ namespace MyRecipeBook.Exception {
         public static string VALIDATION_INSTRUCTION_GREATER_THAN_ZERO {
             get {
                 return ResourceManager.GetString("VALIDATION_INSTRUCTION_GREATER_THAN_ZERO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! There can&apos;t be two instructions of the same order.
+        /// </summary>
+        public static string VALIDATION_INSTRUCTION_ORDER_DUPLICATED {
+            get {
+                return ResourceManager.GetString("VALIDATION_INSTRUCTION_ORDER_DUPLICATED", resourceCulture);
             }
         }
         

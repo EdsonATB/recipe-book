@@ -4,7 +4,7 @@ using MyRecipeBook.Exception;
 
 namespace MyRecipeBook.Application.UseCases.Recipe;
 
-public class RecipeValidator :AbstractValidator<RequestRecipeJson>
+public class RecipeValidator : AbstractValidator<RequestRecipeJson>
 {
     public RecipeValidator()
     {
@@ -18,6 +18,10 @@ public class RecipeValidator :AbstractValidator<RequestRecipeJson>
         RuleFor(recipe => recipe.CookTime)
             .IsInEnum()
             .WithMessage(ResourceMessagesException.VALIDATION_COOKTIME_INVALID);
+
+        RuleFor(recipe => recipe.DishTypes)
+            .NotEmpty()
+            .WithMessage(ResourceMessagesException.VALIDATION_DISH_TYPE_REQUIRED);
 
         RuleForEach(recipe => recipe.DishTypes) //for each por ser uma lista de enum
             .IsInEnum()
@@ -37,6 +41,11 @@ public class RecipeValidator :AbstractValidator<RequestRecipeJson>
         RuleFor(recipe => recipe.Instructions)
             .NotEmpty()
             .WithMessage(ResourceMessagesException.VALIDATION_INSTRUCTION_DESCRIPTION_REQUIRED);
+
+        RuleFor(recipe => recipe.Instructions)
+            .Must(instructions => instructions.Select(instruction => instruction.Order).Distinct().Count() == instructions.Count)
+            .WithMessage(ResourceMessagesException.VALIDATION_INSTRUCTION_ORDER_DUPLICATED)
+            .When(recipe => recipe.Instructions.Count > 1);
 
         RuleForEach(recipe => recipe.Instructions).ChildRules(instruction =>
         {

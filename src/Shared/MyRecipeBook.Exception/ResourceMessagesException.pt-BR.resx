@@ -177,4 +177,13 @@
   <data name="VALIDATION_TITLE_MAX_LENGTH" xml:space="preserve">
     <value>Eita! O título da receita deve ter no máximo 250 caracteres.</value>
   </data>
+  <data name="VALIDATION_COOK_TIME_REQUIRED" xml:space="preserve">
+    <value>Eita! O tempo de cozimento é obrigatório.</value>
+  </data>
+  <data name="VALIDATION_DISH_TYPE_REQUIRED" xml:space="preserve">
+    <value>Eita! O tipo de prato é obrigatório.</value>
+  </data>
+  <data name="VALIDATION_INSTRUCTION_ORDER_DUPLICATED" xml:space="preserve">
+    <value>Eita! Instruçoes com o mesmo número de ordem não é válido.</value>
+  </data>
 </root>
