@@ -79,11 +79,29 @@ namespace MyRecipeBook.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Oops! Cook Time is not valid..
+        /// </summary>
+        public static string VALIDATION_COOKTIME_INVALID {
+            get {
+                return ResourceManager.GetString("VALIDATION_COOKTIME_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Oops! The current password is incorrect..
         /// </summary>
         public static string VALIDATION_CURRENT_PASSWORD {
             get {
                 return ResourceManager.GetString("VALIDATION_CURRENT_PASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! The Dish Type is invalid..
+        /// </summary>
+        public static string VALIDATION_DISHTYPE_INVALID {
+            get {
+                return ResourceManager.GetString("VALIDATION_DISHTYPE_INVALID", resourceCulture);
             }
         }
         
@@ -111,6 +129,51 @@ namespace MyRecipeBook.Exception {
         public static string VALIDATION_EMAIL_REQUIRED {
             get {
                 return ResourceManager.GetString("VALIDATION_EMAIL_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! The ingredient must be at most 250 characters large.
+        /// </summary>
+        public static string VALIDATION_INGREDIENT_MAX_LENGTH {
+            get {
+                return ResourceManager.GetString("VALIDATION_INGREDIENT_MAX_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! The ingredient name is required..
+        /// </summary>
+        public static string VALIDATION_INGREDIENT_REQUIRED {
+            get {
+                return ResourceManager.GetString("VALIDATION_INGREDIENT_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! The instruction description must be at most 2000 characters large.
+        /// </summary>
+        public static string VALIDATION_INSTRUCTION_DESCRIPTION_MAX_LENGTH {
+            get {
+                return ResourceManager.GetString("VALIDATION_INSTRUCTION_DESCRIPTION_MAX_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! The instruction description is required..
+        /// </summary>
+        public static string VALIDATION_INSTRUCTION_DESCRIPTION_REQUIRED {
+            get {
+                return ResourceManager.GetString("VALIDATION_INSTRUCTION_DESCRIPTION_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! The instruction order must be greater than zero..
+        /// </summary>
+        public static string VALIDATION_INSTRUCTION_GREATER_THAN_ZERO {
+            get {
+                return ResourceManager.GetString("VALIDATION_INSTRUCTION_GREATER_THAN_ZERO", resourceCulture);
             }
         }
         
@@ -156,6 +219,24 @@ namespace MyRecipeBook.Exception {
         public static string VALIDATION_RESOURCE_ACCESS_DENIED {
             get {
                 return ResourceManager.GetString("VALIDATION_RESOURCE_ACCESS_DENIED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! The recipe title must be at most 250 characters long..
+        /// </summary>
+        public static string VALIDATION_TITLE_MAX_LENGTH {
+            get {
+                return ResourceManager.GetString("VALIDATION_TITLE_MAX_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! The recipe title is required..
+        /// </summary>
+        public static string VALIDATION_TITLE_REQUIRED {
+            get {
+                return ResourceManager.GetString("VALIDATION_TITLE_REQUIRED", resourceCulture);
             }
         }
     }

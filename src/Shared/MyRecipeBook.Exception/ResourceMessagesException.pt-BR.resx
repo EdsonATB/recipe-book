@@ -123,8 +123,14 @@
   <data name="VALIDATION_ACCESS_TOKEN_REQUIRED" xml:space="preserve">
     <value>Eita! O token de acesso é obrigatório.</value>
   </data>
+  <data name="VALIDATION_COOKTIME_INVALID" xml:space="preserve">
+    <value>Eita! O tempo de cozimento é inválido</value>
+  </data>
   <data name="VALIDATION_CURRENT_PASSWORD" xml:space="preserve">
     <value>Eita! A senha atual esta incorreta.</value>
+  </data>
+  <data name="VALIDATION_DISHTYPE_INVALID" xml:space="preserve">
+    <value>Eita! O tipo de prato é inválido</value>
   </data>
   <data name="VALIDATION_EMAIL_ALREADY_EXISTS" xml:space="preserve">
     <value>Eita! Esse email ja foi registrado.</value>
@@ -134,6 +140,21 @@
   </data>
   <data name="VALIDATION_EMAIL_REQUIRED" xml:space="preserve">
     <value>Eita! O email é obrigatório.</value>
+  </data>
+  <data name="VALIDATION_INGREDIENT_MAX_LENGTH" xml:space="preserve">
+    <value>Eita! O ingrediente deve ter no máximo 250 caracteres.</value>
+  </data>
+  <data name="VALIDATION_INGREDIENT_REQUIRED" xml:space="preserve">
+    <value>Eita! O nome do ingrediente é obrigatório.</value>
+  </data>
+  <data name="VALIDATION_INSTRUCTION_DESCRIPTION_REQUIRED" xml:space="preserve">
+    <value>Eita! A descrição da instruçao é obrigatório.</value>
+  </data>
+  <data name="VALIDATION_INSTRUCTION_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+    <value>Eita! A descrição da instruçao deve ter no máximo 2000 caracteres</value>
+  </data>
+  <data name="VALIDATION_INSTRUCTION_GREATER_THAN_ZERO" xml:space="preserve">
+    <value>Eita! A ordem da instrução deve ser maior que zero.</value>
   </data>
   <data name="VALIDATION_LOGIN_INVALID" xml:space="preserve">
     <value>Eita! Login ou senha inválidos.</value>
@@ -149,5 +170,11 @@
   </data>
   <data name="VALIDATION_RESOURCE_ACCESS_DENIED" xml:space="preserve">
     <value>Eita! Voce não tem acesso a isso.</value>
+  </data>
+  <data name="VALIDATION_TITLE_REQUIRED" xml:space="preserve">
+    <value>Eita! O título da receita é obrigatório.</value>
+  </data>
+  <data name="VALIDATION_TITLE_MAX_LENGTH" xml:space="preserve">
+    <value>Eita! O título da receita deve ter no máximo 250 caracteres.</value>
   </data>
 </root>

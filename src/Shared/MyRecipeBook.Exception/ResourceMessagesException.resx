@@ -123,8 +123,14 @@
   <data name="VALIDATION_ACCESS_TOKEN_REQUIRED" xml:space="preserve">
     <value>Oops! Access token is required.</value>
   </data>
+  <data name="VALIDATION_COOKTIME_INVALID" xml:space="preserve">
+    <value>Oops! Cook Time is not valid.</value>
+  </data>
   <data name="VALIDATION_CURRENT_PASSWORD" xml:space="preserve">
     <value>Oops! The current password is incorrect.</value>
+  </data>
+  <data name="VALIDATION_DISHTYPE_INVALID" xml:space="preserve">
+    <value>Oops! The Dish Type is invalid.</value>
   </data>
   <data name="VALIDATION_EMAIL_ALREADY_EXISTS" xml:space="preserve">
     <value>Oops! Email already registered.</value>
@@ -134,6 +140,21 @@
   </data>
   <data name="VALIDATION_EMAIL_REQUIRED" xml:space="preserve">
     <value>Oops! Email is required.</value>
+  </data>
+  <data name="VALIDATION_INGREDIENT_MAX_LENGTH" xml:space="preserve">
+    <value>Oops! The ingredient must be at most 250 characters large</value>
+  </data>
+  <data name="VALIDATION_INGREDIENT_REQUIRED" xml:space="preserve">
+    <value>Oops! The ingredient name is required.</value>
+  </data>
+  <data name="VALIDATION_INSTRUCTION_DESCRIPTION_REQUIRED" xml:space="preserve">
+    <value>Oops! The instruction description is required.</value>
+  </data>
+  <data name="VALIDATION_INSTRUCTION_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+    <value>Oops! The instruction description must be at most 2000 characters large</value>
+  </data>
+  <data name="VALIDATION_INSTRUCTION_GREATER_THAN_ZERO" xml:space="preserve">
+    <value>Oops! The instruction order must be greater than zero.</value>
   </data>
   <data name="VALIDATION_LOGIN_INVALID" xml:space="preserve">
     <value>Oops! Invalid credentials</value>
@@ -149,5 +170,11 @@
   </data>
   <data name="VALIDATION_RESOURCE_ACCESS_DENIED" xml:space="preserve">
     <value>Oops! You dont have access to this.</value>
+  </data>
+  <data name="VALIDATION_TITLE_REQUIRED" xml:space="preserve">
+    <value>Oops! The recipe title is required.</value>
+  </data>
+  <data name="VALIDATION_TITLE_MAX_LENGTH" xml:space="preserve">
+    <value>Oops! The recipe title must be at most 250 characters long.</value>
   </data>
 </root>
